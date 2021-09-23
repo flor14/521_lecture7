@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>DSCI 521 - Lecture 6</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="MDS 2021/22" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <script src="libs/peerjs/peerjs.min.js"></script>
+    <script src="libs/tiny.toast/toast.min.js"></script>
+    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+
+
+
+class: middle, center
+
+&lt;img src="img/hex.png" width="150" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+class: bottom
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+### DSCI 521 - Lecture 6
+### **YAML, Templates, Presentations, and Notebook formats**
+
+ .large[#### Computing Platforms for Data Science - UBC MDS 2021/22
+]]
+
+
+---
+
+## Lecture learning goals
+
+1. Use `here` to define robust file paths
+
+--
+
+2. Specify metadata in the `YAML header` block
+
+--
+
+3. Use `R Markdown templates`
+
+--
+
+4. Create `presentations using R Markdown` (via xaringan) and using Jupyter notebooks
+
+--
+
+5. Sharing `rendered HTML files` publicly via GitHub Pages
+
+---
+
+class: middle, inverse
+
+## Live Coding 1
+
+
+ 
+Create a git project    
+Use here to define robust file paths  
+
+
+---
+
+class: middle, center
+
+### How I can recognize that I am working in a project when using RStudio?
+
+---
+
+### How I can recognize that I am working in a project when using RStudio?
+
+&lt;img src="img/project.png" width="900" style="display: block; margin: auto;" /&gt;
+---
+
+
+## Working with projects
+
+
+- Sets the the **working directory** to the root of the selected project folder
+
+--
+
+- You can start a project on a **Git repository**
+
+--
+  
+- Keeps all your **files together**
+
+--
+
+- Previously edited source **documents are restored** into editor tabs
+
+--
+
+- More...
+  
+  
+  
+  
+  
+  
+  
+ 
+
+&lt;img src="img/icon.png" width="150" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+.footnote[[Using RStudio projects](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)]
+---
+
+## Working with projects
+
+&lt;img src="img/structure.png" width="900" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+---
+
+## Working with projects
+
+&lt;img src="img/structure2.png" width="700" style="display: block; margin: auto;" /&gt;
+
+Everything works fine! 
+
+---
+
+## script.R
+
+#### 1. Absolute Path ✔️
+```
+readLines("C:/Users/Florencia/main_2021/folder_A/my_project/data/file.txt") 
+```
+#### 2. Relative Path ✔️
+```
+readLines("data/file.txt") 
+```
+#### 3. `here` package ️✔️
+```
+library(here)
+path &lt;- here("data", "file.txt")
+readLines(path) 
+```
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+It  works!]
+
+
+---
+
+
+## Moving my project folder
+
+&lt;img src="img/structure3.png" width="900" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+class: center, middle
+
+## What code will run without errors?
+
+#### 1 and 2  
+#### 2 and 3  
+#### 1, 2 and 3  
+
+
+---
+
+## script.R
+##### C:/Users/Florencia/main_2021/**folder_B**/my_project/data/file.txt
+
+#### 1. Absolute Path ❌   
+
+--
+
+#### 2. Relative Path ✔️
+
+--
+
+#### 3. `here` package ️✔️
+
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+- When I am working in a **project**, the working directory is set to the root of the selected project folder
+- It is safe to use **relative paths** even if I move the project folder]
+
+
+---
+
+## New folder `files` 
+#### Try to run the content of `script.R` to a `notebook.Rmd`
+
+&lt;img src="img/structure4.png" width="900" style="display: block; margin: auto;" /&gt;
+
+---
+
+.pull-left[
+
+## script.R
+
+#### 1. Absolute Path ❌    
+
+#### 2. Relative Path ✔️
+
+
+#### 3. `here` package ️✔️
+]
+
+--
+
+.pull-right[
+
+## notebook.Rmd
+
+#### 1. Absolute Path ❌
+
+#### 2. Relative Path ❌ 
+The current working directory inside a notebook chunk is always the directory containing the notebook `.Rmd` file. 
+
+**Option** ️✔️
+```
+readLines("../data/file.txt") 
+```
+
+#### 3. `here` package ️✔️
+]
+
+--
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+-  The notebook will work if you are careful writing the paths
+- `here` package works in this case!]
+
+
+
+---
+
+class: middle, center
+
+### What happen if you open `script.R` or `notebook.Rmd` outside a project?
+
+
+---
+
+#### 1. Absolute Path ❌    
+
+#### 2. Relative Path ❌ 
+
+#### 3. `here` package ️✔️
+
+---
+
+
+&lt;img src="img/herealison.png" width="700" style="display: block; margin: auto;" /&gt;
+.footnote[Illustration by Alison Horst]
+---
+ 
+## `here` package adds extra functionalities
+
+- Makes sure that file paths work across operating systems 
+
+--
+
+- Accessible way to specify paths in your project’s `.R` and `.Rmd` files, regardless of where they live.
+
+--
+
+- The paths will work when you are outside the project too
+
+--
+
+**It does not replace the use of projects!**
+
+.footnote[[More info about `here` here!](https://malco.io/2018/11/05/why-should-i-use-the-here-package-when-i-m-already-using-projects/) and in the [GitHub repo](https://github.com/jennybc/here_here)]
+
+
+
+
+
+---
+
+class: inverse, center, middle
+### R Notebook / R Markdown document
+#### What is the difference?
+
+---
+
+
+### R Notebook / R Markdown document
+#### What is the difference?
+
+**R Notebook**
+- Output: html_notebook (**Preview** option available)
+  
+--
+  
+**RMarkdown** 
+- Output: html_documents
+- Templates, slides and more.
+
+
+
+
+--
+&lt;img src="img/rmarkdown.png" width="150" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+---
+
+## R Markdown documents
+
+&lt;img src="img/output_formats.png" width="400" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+
+.footnote[[R Markdown quick tour - RStudio](https://rmarkdown.rstudio.com/authoring_quick_tour.html)]
+
+
+
+---
+
+&lt;img src="img/rmarkdownalison.jpg" width="700" style="display: block; margin: auto;" /&gt;
+
+.footnote[Picture by Alison Horst]
+---
+
+class: center, middle, inverse
+
+# R Markdown 
+# YAML header
+
+---
+
+### The YAML header 
+
+- It is where we can specify **metadata** about our project. 
+- It is delimited by **---** (three hyphens) 
+- The indentation it is important!  
+
+```
+---
+title: "R Notebook"
+output: html_notebook
+---
+```
+
+---
+
+### The YAML header
+
+We can add new values, for example the author name and the date.
+
+```
+---
+title: "R Notebook"
+*output: html_notebook
+*author: Florencia
+date: 2020-09-23
+---
+```
+
+
+.footnote[R code can be evaluated inside the YAML header 2021-09-22]
+---
+
+### The YAML header
+
+##### Table of Contents
+```
+---
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+---
+```
+
+.footnote[[Document Templates](https://bookdown.org/yihui/rmarkdown/document-templates.html)]
+
+---
+
+
+class: center, middle, inverse
+
+# R Markdown templates
+
+
+
+---
+
+## R Markdown templates
+
+##### GitHub document
+
+saves a .md markdown file and creates a temporary .html files for preview of how it will look on GitHub, which is stored in a temporary folder and later deleted. 
+```
+---
+output: github_document
+---
+```
+
+##### Word document
+
+```
+---
+output: word_document
+---
+```
+
+.footnote[[Custom Word Templates](https://bookdown.org/yihui/rmarkdown-cookbook/word-template.html)]
+
+---
+
+class: middle, center
+
+# 🎨🖌️ 
+## [R Markdown gallery](https://rmarkdown.rstudio.com/gallery.html)
+
+---
+
+class: middle, inverse
+
+## Live Coding 2
+
+Create presentations using R Markdown (via xaringan) and using Jupyter notebooks
+Sharing rendered HTML files publicly via GitHub Pages 
+
+
+---
+
+class: middle, center, inverse
+
+
+&lt;img src="img/xarhex.png" width="150" style="display: block; margin: auto;" /&gt;
+
+## Presentations with R Markdown via _xaringan_
+
+
+
+---
+
+### Presentations with R Markdown via `xaringan`
+
+- An R package for creating slideshows with **remark.js** through R Markdown
+
+- One of the templates you can use is to create a "Ninja presentation" using xaringan. 
+
+
+.footnote[[GitHub repo `Xaringan` package](https://github.com/yihui/xaringan)]
+---
+
+## `xaringan`
+
+#### Separate slides
+
+#### -- (2 hyphens)
+
+#### Class labels
+
+- **inverse** inverts the colors
+- **center** centers horizontally
+- **middle** centers vertically
+
+#### Organize elements on the slide
+
+`.pull-left[]` and `.pull-right[]`
+
+
+
+.footnote[[GitHub repo `xaringan` package](https://github.com/yihui/xaringan)]
+
+
+---
+
+class: middle, center
+&lt;img src="img/xt.png" width="150" style="display: block; margin: auto;" /&gt;
+## `xaringanthemer `
+### (+ functions to `xaringan`)
+
+
+
+---
+
+## `xaringanthemer `
+
+```
+install.packages(c("xaringanthemer", "showtext"))
+```
+
+And then select to create a "themed" Ninja presentation via the same process as above.
+
+
+![](https://raw.githubusercontent.com/gadenbuie/xaringanthemer/assets/examples.gif)
+
+
+
+
+.footnote[[GitHub repo `xaringanthemer` package](https://pkg.garrickadenbuie.com/xaringanthemer/)]
+
+---
+
+class: middle, center, inverse
+
+# Sharing our slides 
+
+
+---
+
+# GitHub Pages
+
+- **GitHub Pages** can create a public URL for any GitHub repository that you own, and automatically renders any HTML files within this repo. 
+
+- By default, GitHub pages will render a `README.md` file or an `index.html` file 
+
+&lt;img src="img/gp.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle, center, inverse
+
+## Creating presentations with JupyterLab
+
+
+
+---
+
+## Slides with JupyterLab 
+
+
+- JavaScript framework: **reveal.js** 
+
+- To mark which code cells should be part of the presentation, we can go to the property inspector (the settings wheel in the left side panel) and then select the slide type from the dropdown menu. 
+
+
+[Slides from lecture0 are an example](https://flor14.github.io/jupyter/#/)
+
+
+---
+
+
+## Slides with JupyterLab 
+
+
+- **Slide**: Standard slide navigated to via left and right arrows.  
+- **Sub-slide**: Sub-topic of a slide, navigated to via up and down arrows.  
+- **Fragment**: Animated in as part of the previous slide, could e.g. be a bullet point in a list.  
+- **Notes**: Speaker notes are visible when you press (works fine with nbconvert  5.6.1, but does currently not work with 6.0+)  
+- **Skip**: Not included    
+
+
+#### GitHub Pages
+
+[How to host Jupyter Notebook slides on Github - Sophia Yang](https://sophiamyang.github.io/DS/basics/slides_github_pages.html)
+
+
+---
+
+## Create your Blog or Webpage
+#### R Markdown + `Distill` package
+
+```
+install.packages("distill")
+```
+
+**Material**
+- [RStudio oficial - Distill for RMarkdown](https://rstudio.github.io/distill)
+- [The Mock up blog - (I recommend  _Why to consider Distill? section_)](https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/)
+- [Scientific Blogging with R Markdown, Distill - Maelle Salmon](https://scientific-rmd-blogging.netlify.app/distill/)
+- [How I Taught Scientific Blogging with R Markdown, Online - Maelle Salmon](https://masalmon.eu/2020/07/08/rmd-blogging-course/)
+- [The Distillery](https://distillery.rbind.io/tips_and_tricks.html) _+1 for the name!_
+
+&lt;img src="img/distill.png" width="150" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+---
+
+## References
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+
+ [Elegant, flexible, and fast dynamic report generation with R](https://yihui.org/knitr/)
+ 
+ [GitHub repo `here` package](https://github.com/jennybc/here_here)
+ 
+ [GitHub repo `xaringan` package](https://github.com/yihui/xaringan)
+ 
+ [GitHub repo `xaringanthemer` package](https://pkg.garrickadenbuie.com/xaringanthemer/)
+
+ [R Markdown documents](https://rmarkdown.rstudio.com/)
+
+ [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+ 
+ [RStudio oficial - Distill for RMarkdown](https://rstudio.github.io/distill)
+
+
+]
+
+
+---
+
+
+class: inverse, middle, center
+
+
+## Thank you!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
