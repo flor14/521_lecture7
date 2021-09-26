@@ -542,7 +542,7 @@ Save the file, and add and commit it with Git. Then try git status again. You sh
 On branch timberst-master
 nothing to commit, working tree clean
 ```
-
+.footnote[[.gitignore](https://carpentries-incubator.github.io/git-Rstudio-course/02-ignore/index.html)]
 ---
 
 
