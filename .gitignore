@@ -3,5 +3,3 @@
 .RData
 .Ruserdata
 *.md
-**/toast.min.js
-clipboard.min.js
